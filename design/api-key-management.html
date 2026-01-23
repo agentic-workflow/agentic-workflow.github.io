@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Introduction - Agentic Workflow Document</title>
+        <title>API Key Management - Agentic Workflow Document</title>
 
 
         <!-- Custom HTML head -->
@@ -12,33 +12,33 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
 
-        <link rel="icon" href="favicon-de23e50b.svg">
-        <link rel="shortcut icon" href="favicon-8114d1fc.png">
-        <link rel="stylesheet" href="css/variables-8adf115d.css">
-        <link rel="stylesheet" href="css/general-2459343d.css">
-        <link rel="stylesheet" href="css/chrome-ae938929.css">
-        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+        <link rel="icon" href="../favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="../favicon-8114d1fc.png">
+        <link rel="stylesheet" href="../css/variables-8adf115d.css">
+        <link rel="stylesheet" href="../css/general-2459343d.css">
+        <link rel="stylesheet" href="../css/chrome-ae938929.css">
+        <link rel="stylesheet" href="../css/print-9e4910d8.css" media="print">
 
         <!-- Fonts -->
-        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+        <link rel="stylesheet" href="../fonts/fonts-9644e21d.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
-        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
-        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+        <link rel="stylesheet" id="mdbook-highlight-css" href="../highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="../tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../ayu-highlight-3fdfc3ac.css">
 
         <!-- Custom theme stylesheets -->
 
 
         <!-- Provide site root and default themes to javascript -->
         <script>
-            const path_to_root = "";
+            const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-f60475d8.js";
+            window.path_to_searchindex_js = "../searchindex-f60475d8.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="toc-cba69dfa.js"></script>
+        <script src="../toc-cba69dfa.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -105,7 +105,7 @@
             <!-- populated by js -->
             <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
             <noscript>
-                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
             </noscript>
             <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
@@ -140,7 +140,7 @@
                     <h1 class="menu-title">Agentic Workflow Document</h1>
 
                     <div class="right-buttons">
-                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
                             <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
                         </a>
 
@@ -174,14 +174,101 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <h1 id="introduction"><a class="header" href="#introduction">Introduction</a></h1>
+                        <h1 id="api-key-management"><a class="header" href="#api-key-management">API Key Management</a></h1>
+<p>In an enterprise cloud environment, API keys and session management need to be decoupled.</p>
+<p>Here is the breakdown of how to handle Context, Sessions, and API keys in an “Agent-as-a-Service” architecture.</p>
+<hr>
+<h3 id="1-api-key-vs-session-identity"><a class="header" href="#1-api-key-vs-session-identity">1. API Key vs. Session Identity</a></h3>
+<ul>
+<li><strong>The API Key</strong> is for <strong>Authentication &amp; Billing</strong>: It tells the LLM provider (like OpenAI or Anthropic) which <em>company</em> is calling and who to bill. You typically use one (or a few) “Service Account” keys for the entire cloud application.</li>
+<li><strong>The Session/Thread ID</strong> is for <strong>Context</strong>: LLMs are “stateless.” They don’t remember you from the last call unless you provide a <strong>Thread ID</strong> (if using a provider’s built-in memory like OpenAI Assistants API) or send the <strong>Chat History</strong> back with every new request.</li>
+</ul>
+<h3 id="2-how-to-manage-context-in-the-cloud"><a class="header" href="#2-how-to-manage-context-in-the-cloud">2. How to Manage Context in the Cloud</a></h3>
+<p>Since you are designing an enterprise service, you have three professional ways to manage context across the lifecycle of a business process:</p>
+<h4 id="a-the-stateless-managed-history-recommended-for-privacy"><a class="header" href="#a-the-stateless-managed-history-recommended-for-privacy">A. The “Stateless” Managed History (Recommended for Privacy)</a></h4>
+<p>In this model, your “Agent Service” stores the conversation history in your own enterprise database (e.g., Redis, PostgreSQL, or CosmosDB).</p>
+<ol>
+<li>Agent Instance starts.</li>
+<li>It fetches the <code>session_id</code> history from <strong>your</strong> DB.</li>
+<li>It sends the history + the new prompt to the LLM using the <strong>Global API Key</strong>.</li>
+<li>It saves the new response back to <strong>your</strong> DB.</li>
+</ol>
+<ul>
+<li><strong>Benefit:</strong> You own the data. If you switch from OpenAI to Anthropic, you still have your history.</li>
+</ul>
+<h4 id="b-the-provider-side-threading-openai-assistants-api"><a class="header" href="#b-the-provider-side-threading-openai-assistants-api">B. The “Provider-Side” Threading (OpenAI Assistants API)</a></h4>
+<ol>
+<li>Your service creates a <code>thread_id</code> on OpenAI’s servers.</li>
+<li>Each time the agent instance runs, it just sends the <code>thread_id</code>.</li>
+<li>OpenAI manages the context internally.</li>
+</ol>
+<ul>
+<li><strong>Benefit:</strong> Simpler to code.</li>
+<li><strong>Drawback:</strong> You are “locked in” to that provider, and your enterprise data stays on their servers longer.</li>
+</ul>
+<hr>
+<h3 id="3-managing-api-keys-in-enterprise-cloud"><a class="header" href="#3-managing-api-keys-in-enterprise-cloud">3. Managing API Keys in Enterprise Cloud</a></h3>
+<p>You should never bake API keys into your agent code or pass them around as variables. Use these three enterprise patterns:</p>
+<h4 id="pattern-1-secret-management-the-gold-standard"><a class="header" href="#pattern-1-secret-management-the-gold-standard">Pattern 1: Secret Management (The Gold Standard)</a></h4>
+<p>Use a service like <strong>AWS Secrets Manager</strong>, <strong>Azure Key Vault</strong>, or <strong>HashiCorp Vault</strong>.</p>
+<ul>
+<li>The Agent Service is assigned an <strong>IAM Role</strong> (Identity).</li>
+<li>When an instance starts, it asks the Vault for the key: <em>“I am Agent-Service-Production, give me the OpenAI-Key.”</em></li>
+<li>The key only exists in the instance’s <strong>memory</strong>, never in the logs or the code.</li>
+</ul>
+<h4 id="pattern-2-the-ai-gateway-proxy-best-for-governance"><a class="header" href="#pattern-2-the-ai-gateway-proxy-best-for-governance">Pattern 2: The “AI Gateway” Proxy (Best for Governance)</a></h4>
+<p>In large enterprises, you don’t let agents call OpenAI directly. You build a <strong>Gateway Service</strong>.</p>
+<ul>
+<li>Agent Instance calls <code>https://internal-ai-gateway.enterprise.com</code>.</li>
+<li>The API key is pushed/pulled to the target server from Secrets Manager.</li>
+<li>The Gateway adds the API key to the header.</li>
+<li><strong>Why?</strong> You can perform <strong>Rate Limiting</strong> (stop an agent from spending $10k in an hour), <strong>PII Filtering</strong> (stop the agent from sending customer Social Security numbers to the cloud), and <strong>Logging</strong>.</li>
+</ul>
+<h4 id="pattern-3-key-rotation"><a class="header" href="#pattern-3-key-rotation">Pattern 3: Key Rotation</a></h4>
+<p>By using a Secret Manager or Gateway, you can change the API key every 30 days without ever restarting or redeploying your agent code.</p>
+<hr>
+<h3 id="4-how-this-fits-into-your-workflowjson"><a class="header" href="#4-how-this-fits-into-your-workflowjson">4. How this fits into your <code>workflow.json</code></a></h3>
+<p>Since you are designing a spec, you can handle this by defining the “Authentication Policy” in the <code>use</code> section of your workflow.</p>
+<p>Your spec already has an <code>authenticationPolicy</code>. In the cloud, you would configure it to point to a <strong>secret reference</strong> rather than a literal string:</p>
+<pre><code class="language-json">"use": {
+  "authentications": {
+    "openAiAuth": {
+      "bearer": {
+        "token": "${ secrets.OPENAI_API_KEY }" 
+      }
+    }
+  },
+  "agents": {
+    "researchAgent": {
+      "model": {
+        "provider": "openai",
+        "name": "gpt-4o",
+        "authentication": { "use": "openAiAuth" }
+      },
+      "memory": {
+        "type": "thread",
+        "id": "${ context.sessionId }" 
+      }
+    }
+  }
+}
+</code></pre>
+<h3 id="summary-for-your-architecture"><a class="header" href="#summary-for-your-architecture">Summary for your Architecture:</a></h3>
+<ol>
+<li><strong>API Keys:</strong> Use <strong>one</strong> key per environment, stored in a <strong>Secret Vault</strong>.</li>
+<li><strong>Context:</strong> Use a <strong>Session ID</strong> or <strong>Thread ID</strong> passed in the workflow context.</li>
+<li><strong>Deployment:</strong> Each “Agent-as-a-Service” call receives a <code>sessionId</code>. The service uses that ID to look up the “state” of the business process, regardless of which cloud container is actually running the code.</li>
+</ol>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../design.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
 
-                            <a rel="next prefetch" href="architecture.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../design/agent-engine-pattern.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
                             </a>
 
@@ -191,8 +278,11 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../design.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
 
-                    <a rel="next prefetch" href="architecture.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../design/agent-engine-pattern.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
                     </a>
             </nav>
@@ -212,17 +302,17 @@
         </script>
 
 
-        <script src="elasticlunr-ef4e11c1.min.js"></script>
-        <script src="mark-09e88c2c.min.js"></script>
-        <script src="searcher-c2a407aa.js"></script>
+        <script src="../elasticlunr-ef4e11c1.min.js"></script>
+        <script src="../mark-09e88c2c.min.js"></script>
+        <script src="../searcher-c2a407aa.js"></script>
 
-        <script src="clipboard-1626706a.min.js"></script>
-        <script src="highlight-abc7f01d.js"></script>
-        <script src="book-a0b12cfe.js"></script>
+        <script src="../clipboard-1626706a.min.js"></script>
+        <script src="../highlight-abc7f01d.js"></script>
+        <script src="../book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="mermaid-eefea253.min.js"></script>
-        <script src="mermaid-init-ccf746f1.js"></script>
+        <script src="../mermaid-eefea253.min.js"></script>
+        <script src="../mermaid-init-ccf746f1.js"></script>
 
 
 

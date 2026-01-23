@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Introduction - Agentic Workflow Document</title>
+        <title>Agent Engine Pattern - Agentic Workflow Document</title>
 
 
         <!-- Custom HTML head -->
@@ -12,33 +12,33 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
 
-        <link rel="icon" href="favicon-de23e50b.svg">
-        <link rel="shortcut icon" href="favicon-8114d1fc.png">
-        <link rel="stylesheet" href="css/variables-8adf115d.css">
-        <link rel="stylesheet" href="css/general-2459343d.css">
-        <link rel="stylesheet" href="css/chrome-ae938929.css">
-        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+        <link rel="icon" href="../favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="../favicon-8114d1fc.png">
+        <link rel="stylesheet" href="../css/variables-8adf115d.css">
+        <link rel="stylesheet" href="../css/general-2459343d.css">
+        <link rel="stylesheet" href="../css/chrome-ae938929.css">
+        <link rel="stylesheet" href="../css/print-9e4910d8.css" media="print">
 
         <!-- Fonts -->
-        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+        <link rel="stylesheet" href="../fonts/fonts-9644e21d.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
-        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
-        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+        <link rel="stylesheet" id="mdbook-highlight-css" href="../highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="../tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../ayu-highlight-3fdfc3ac.css">
 
         <!-- Custom theme stylesheets -->
 
 
         <!-- Provide site root and default themes to javascript -->
         <script>
-            const path_to_root = "";
+            const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-f60475d8.js";
+            window.path_to_searchindex_js = "../searchindex-f60475d8.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="toc-cba69dfa.js"></script>
+        <script src="../toc-cba69dfa.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -105,7 +105,7 @@
             <!-- populated by js -->
             <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
             <noscript>
-                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
             </noscript>
             <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
@@ -140,7 +140,7 @@
                     <h1 class="menu-title">Agentic Workflow Document</h1>
 
                     <div class="right-buttons">
-                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
                             <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
                         </a>
 
@@ -174,14 +174,91 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <h1 id="introduction"><a class="header" href="#introduction">Introduction</a></h1>
+                        <h1 id="agent-engine-pattern"><a class="header" href="#agent-engine-pattern">Agent Engine Pattern</a></h1>
+<p><strong>“Agent Engine Pattern”</strong> is the <strong>standard architectural pattern</strong> for building industrial-grade AI platforms.</p>
+<p>In this model, The Java code acts as the <strong>Runtime/Orchestrator</strong>, while the JSON (the workflow spec) and the Database act as the <strong>Application Logic</strong>.</p>
+<p>Here is why this is a strong approach and how it should structured to succeed:</p>
+<h3 id="1-why-it-is-a-good-idea"><a class="header" href="#1-why-it-is-a-good-idea">1. Why it is a good idea</a></h3>
+<ul>
+<li><strong>Separation of Concerns:</strong> We write the complex Java code (security, retries, database connections, LLM integration) once. Business analysts or AI engineers can then “program” new agents just by updating a JSON file or a DB record.</li>
+<li><strong>Hot-Swapping:</strong> We can update an agent’s persona, its “brain” (model), or its “tools” (functions) in real-time without a single line of code change or a server restart.</li>
+<li><strong>Scalability:</strong> We can deploy 100 instances of the same generic Java JAR file. Each instance becomes a different agent (Researcher, Auditor, Support) based on the <code>workflow_id</code> it is assigned at runtime.</li>
+</ul>
+<h3 id="2-the-architecture-the-engine-vs-the-content"><a class="header" href="#2-the-architecture-the-engine-vs-the-content">2. The Architecture: “The Engine vs. The Content”</a></h3>
+<p>To make this work, the Java generic agent needs three specific components:</p>
+<h4 id="a-the-tool-registry-the-hands"><a class="header" href="#a-the-tool-registry-the-hands">A. The Tool Registry (The “Hands”)</a></h4>
+<p>Since the workflow JSON will reference functions by name (e.g., <code>"call": "get_customer_data"</code>), the Java code needs a way to map that string to actual code.</p>
+<ul>
+<li><strong>Implementation:</strong> Use Java Beans or a <code>Map&lt;String, ToolInterface&gt;</code>.</li>
+<li><strong>Logic:</strong> When the LLM says “I want to call <code>get_customer_data</code>”, the Java Engine looks up that name in the registry and executes the corresponding Java method.</li>
+</ul>
+<h4 id="b-the-state-manager-the-memory"><a class="header" href="#b-the-state-manager-the-memory">B. The State Manager (The “Memory”)</a></h4>
+<p>Since we are running this in the cloud, each step of the workflow needs to be persisted.</p>
+<ul>
+<li><strong>Implementation:</strong> Every time the agent finishes a “step” in the JSON, the Java engine saves the current <code>context</code> (the JSON variables) to the database.</li>
+<li><strong>Benefit:</strong> If the server crashes, we can reload the workflow from the last successful step.</li>
+</ul>
+<h4 id="c-the-prompt-template-engine-the-mind"><a class="header" href="#c-the-prompt-template-engine-the-mind">C. The Prompt Template Engine (The “Mind”)</a></h4>
+<p>The “System Prompt” shouldn’t be a hardcoded string. It should be stored in the DB as a template.</p>
+<ul>
+<li><strong>Example in DB:</strong> <code>"You are a ${agent_role}. Your goal is to ${agent_goal}."</code></li>
+<li><strong>Java Logic:</strong> Before calling the LLM, use a library like <em>Handlebars</em> or <em>Thymeleaf</em> to inject the specific workflow variables into the prompt.</li>
+</ul>
+<h3 id="3-how-the-generic-agent-works-in-java"><a class="header" href="#3-how-the-generic-agent-works-in-java">3. How the “Generic Agent” works in Java</a></h3>
+<p>The Java <code>AgentEngine</code> class would look something like this (conceptually):</p>
+<pre><code class="language-java">public class AgentEngine {
+    
+    public void executeWorkflow(String workflowId, Map&lt;String, Object&gt; inputData) {
+        // 1. Fetch Workflow JSON from DB
+        Workflow definition = db.getWorkflow(workflowId);
+        
+        // 2. Initialize Context (Session Memory)
+        WorkflowContext context = new WorkflowContext(inputData);
+        
+        // 3. Loop through the "do" list in the JSON
+        for (Task task : definition.getTasks()) {
+            
+            if (task instanceof AgentTask) {
+                // Call LLM using Generic Prompt + Tools defined in JSON
+                String response = llmService.ask(task.getAgent(), task.getPrompt(), context);
+                context.update(response);
+            } 
+            else if (task instanceof CallTask) {
+                // Execute the Java Tool/Function mapped in the Registry
+                Object result = toolRegistry.get(task.getFunction()).execute(context);
+                context.update(result);
+            }
+            
+            // 4. Save state to DB after every step
+            db.saveState(workflowId, context);
+        }
+    }
+}
+</code></pre>
+<h3 id="4-important-challenges-to-watch-for"><a class="header" href="#4-important-challenges-to-watch-for">4. Important Challenges to Watch For</a></h3>
+<ol>
+<li><strong>Versioning:</strong> What happens if we change a Java tool’s code, but an old workflow in the database still expects it to work the old way? We must version our <strong>Tools</strong> and our <strong>Workflows</strong> separately.</li>
+<li><strong>Security (Sandboxing):</strong> If we allow “scripts” (like the <code>runScript</code> in our original JSON spec) to be defined in the database, we must ensure our Java engine runs them in a secure sandbox (like GraalVM or a Docker container) so a malicious DB entry can’t hack our server.</li>
+<li><strong>Observability:</strong> Because “the code is the same,” debugging becomes harder. We will need a very good UI to visualize the Agentic Workflow execution (seeing exactly which step the agent is on and what the LLM was thinking).</li>
+</ol>
+<h3 id="the-recommendation"><a class="header" href="#the-recommendation">The Recommendation</a></h3>
+<p><strong>Proceed with this.</strong> Use our <code>workflow.json</code> schema as the “contract” between our Database and our Java Engine.</p>
+<ul>
+<li>Store the <strong>Schema</strong> in our Git repo.</li>
+<li>Store the <strong>Workflow Instances (JSON)</strong> in our Database.</li>
+<li>Build the <strong>Java Engine</strong> to be a strict interpreter of that JSON.</li>
+</ul>
+<p>This puts us ahead of 90% of developers who are currently hardcoding prompts and logic into their applications. This “metadata-driven” approach is much more sustainable for enterprise software.</p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../design/api-key-management.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
 
-                            <a rel="next prefetch" href="architecture.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../design/agent-skills.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
                             </a>
 
@@ -191,8 +268,11 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../design/api-key-management.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
 
-                    <a rel="next prefetch" href="architecture.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../design/agent-skills.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
                     </a>
             </nav>
@@ -212,17 +292,17 @@
         </script>
 
 
-        <script src="elasticlunr-ef4e11c1.min.js"></script>
-        <script src="mark-09e88c2c.min.js"></script>
-        <script src="searcher-c2a407aa.js"></script>
+        <script src="../elasticlunr-ef4e11c1.min.js"></script>
+        <script src="../mark-09e88c2c.min.js"></script>
+        <script src="../searcher-c2a407aa.js"></script>
 
-        <script src="clipboard-1626706a.min.js"></script>
-        <script src="highlight-abc7f01d.js"></script>
-        <script src="book-a0b12cfe.js"></script>
+        <script src="../clipboard-1626706a.min.js"></script>
+        <script src="../highlight-abc7f01d.js"></script>
+        <script src="../book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="mermaid-eefea253.min.js"></script>
-        <script src="mermaid-init-ccf746f1.js"></script>
+        <script src="../mermaid-eefea253.min.js"></script>
+        <script src="../mermaid-init-ccf746f1.js"></script>
 
 
 
